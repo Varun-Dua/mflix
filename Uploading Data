@@ -1,0 +1,5 @@
+Uploading Data from OMDB(Open Movie Data)
+
+Command Line :
+
+(base) C:\Users\Varun Dua\Downloads>mongoimport --host mflix-shard-0/mflix-shard-00-00-sqdio.mongodb.net:27017,mflix-shard-00-01-sqdio.mongodb.net:27017,mflix-shard-00-02-sqdio.mongodb.net:27017 --ssl --username analytics --password <PASSWORD> --authenticationDatabase admin --headerline --db mflix --collection movies_initial --type csv --file movies_initial.csv
