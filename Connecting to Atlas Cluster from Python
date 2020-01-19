@@ -1,0 +1,10 @@
+On Jupyter notebook:
+
+from pymongo import MongoClient
+
+client = MongoClient("mongodb+srv://analytics:analytics-password@mflix-sqdio.mongodb.net/test?retryWrites=true&w=majority")
+
+print(client.mflix)
+
+Output:
+Database(MongoClient(host=['mflix-shard-00-01-sqdio.mongodb.net:27017', 'mflix-shard-00-02-sqdio.mongodb.net:27017', 'mflix-shard-00-00-sqdio.mongodb.net:27017'], document_class=dict, tz_aware=False, connect=True, retrywrites=True, w='majority', authsource='admin', replicaset='mflix-shard-0', ssl=True), 'mflix')
