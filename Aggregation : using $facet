@@ -1,0 +1,150 @@
+import pymongo
+from pymongo import MongoClient
+import pprint
+from IPython.display import clear_output
+
+client = MongoClient("mongodb+srv://analytics:analytics-password@mflix-sqdio.mongodb.net/test?retryWrites=true&w=majority")
+
+pipeline = [
+    {
+        '$sortByCount': "$language"
+    },
+    {
+        '$facet': {
+            'top language combinations' : [{'$limit':100}],
+            'unusual combinations shared by' : [{
+                '$skip':100
+            },
+            {
+                '$bucketAuto':{
+                    'groupBy' : '$count',
+                    'buckets' : 5,
+                    'output' :{
+                        'language combinations': {'$sum' : 1}
+                    }
+                }
+            
+            }]
+        }
+    }
+]
+
+clear_output()
+pprint.pprint(list(client.mflix.movies_initial.aggregate(pipeline)))
+
+
+OUTPUT:
+[{'top language combinations': [{'_id': 'English', 'count': 25325},
+                                {'_id': 'French', 'count': 1784},
+                                {'_id': 'Italian', 'count': 1480},
+                                {'_id': 'Japanese', 'count': 1290},
+                                {'_id': '', 'count': 1115},
+                                {'_id': 'Spanish', 'count': 875},
+                                {'_id': 'Russian', 'count': 777},
+                                {'_id': 'English, Spanish', 'count': 728},
+                                {'_id': 'German', 'count': 674},
+                                {'_id': 'English, French', 'count': 584},
+                                {'_id': 'Hindi', 'count': 498},
+                                {'_id': 'Korean', 'count': 377},
+                                {'_id': 'Finnish', 'count': 349},
+                                {'_id': 'Swedish', 'count': 291},
+                                {'_id': 'English, German', 'count': 288},
+                                {'_id': 'Mandarin', 'count': 287},
+                                {'_id': 'English, Italian', 'count': 263},
+                                {'_id': 'Portuguese', 'count': 251},
+                                {'_id': 'French, English', 'count': 246},
+                                {'_id': 'Polish', 'count': 203},
+                                {'_id': 'Dutch', 'count': 199},
+                                {'_id': 'Cantonese', 'count': 170},
+                                {'_id': 'English, Russian', 'count': 159},
+                                {'_id': 'English, Japanese', 'count': 159},
+                                {'_id': 'Danish', 'count': 157},
+                                {'_id': 'Turkish', 'count': 155},
+                                {'_id': 'Japanese, English', 'count': 134},
+                                {'_id': 'Greek', 'count': 116},
+                                {'_id': 'Czech', 'count': 106},
+                                {'_id': 'German, English', 'count': 102},
+                                {'_id': 'Spanish, English', 'count': 102},
+                                {'_id': 'Persian', 'count': 95},
+                                {'_id': 'Italian, English', 'count': 86},
+                                {'_id': 'Norwegian', 'count': 83},
+                                {'_id': 'Hungarian', 'count': 80},
+                                {'_id': 'Hindi, English', 'count': 69},
+                                {'_id': 'Thai', 'count': 66},
+                                {'_id': 'Romanian', 'count': 63},
+                                {'_id': 'English, Latin', 'count': 61},
+                                {'_id': 'English, Mandarin', 'count': 60},
+                                {'_id': 'Tamil', 'count': 55},
+                                {'_id': 'English, French, German', 'count': 55},
+                                {'_id': 'English, Portuguese', 'count': 53},
+                                {'_id': 'Cantonese, Mandarin', 'count': 51},
+                                {'_id': 'Cantonese, English', 'count': 50},
+                                {'_id': 'English, Arabic', 'count': 50},
+                                {'_id': 'Marathi', 'count': 46},
+                                {'_id': 'Hebrew', 'count': 42},
+                                {'_id': 'English, Cantonese', 'count': 41},
+                                {'_id': 'English, German, French', 'count': 40},
+                                {'_id': 'English, French, Spanish',
+                                 'count': 39},
+                                {'_id': 'English, Swedish', 'count': 38},
+                                {'_id': 'French, German', 'count': 37},
+                                {'_id': 'English, Hebrew', 'count': 36},
+                                {'_id': 'Swedish, English', 'count': 35},
+                                {'_id': 'Russian, English', 'count': 35},
+                                {'_id': 'Serbian', 'count': 35},
+                                {'_id': 'Telugu', 'count': 33},
+                                {'_id': 'Chinese', 'count': 33},
+                                {'_id': 'English, French, Italian',
+                                 'count': 32},
+                                {'_id': 'Arabic', 'count': 32},
+                                {'_id': 'French, Spanish', 'count': 31},
+                                {'_id': 'English, American Sign Language',
+                                 'count': 30},
+                                {'_id': 'Mandarin, Cantonese', 'count': 30},
+                                {'_id': 'French, Italian', 'count': 30},
+                                {'_id': 'English, Spanish, French',
+                                 'count': 29},
+                                {'_id': 'Dutch, English', 'count': 29},
+                                {'_id': 'Estonian', 'count': 28},
+                                {'_id': 'English, Hindi', 'count': 28},
+                                {'_id': 'English, Vietnamese', 'count': 28},
+                                {'_id': 'Malayalam', 'count': 27},
+                                {'_id': 'French, Arabic', 'count': 27},
+                                {'_id': 'Korean, English', 'count': 27},
+                                {'_id': 'Russian, German', 'count': 27},
+                                {'_id': 'Bengali', 'count': 26},
+                                {'_id': 'Italian, Spanish', 'count': 24},
+                                {'_id': 'Italian, German', 'count': 24},
+                                {'_id': 'English, Greek', 'count': 23},
+                                {'_id': 'English, Korean', 'count': 23},
+                                {'_id': 'English, Yiddish', 'count': 23},
+                                {'_id': 'Icelandic', 'count': 23},
+                                {'_id': 'English, Italian, French',
+                                 'count': 22},
+                                {'_id': 'Mandarin, English', 'count': 22},
+                                {'_id': 'English, German, Italian',
+                                 'count': 21},
+                                {'_id': 'Finnish, Swedish', 'count': 20},
+                                {'_id': 'French, German, English', 'count': 20},
+                                {'_id': 'Serbo-Croatian', 'count': 20},
+                                {'_id': 'Indonesian', 'count': 20},
+                                {'_id': 'Spanish, French', 'count': 20},
+                                {'_id': 'English, Chinese', 'count': 19},
+                                {'_id': 'English, Hungarian', 'count': 19},
+                                {'_id': 'English, Dutch', 'count': 19},
+                                {'_id': 'German, French', 'count': 18},
+                                {'_id': 'Georgian', 'count': 18},
+                                {'_id': 'English, German, Russian',
+                                 'count': 17},
+                                {'_id': 'English, Polish', 'count': 17},
+                                {'_id': 'Croatian', 'count': 17},
+                                {'_id': 'English, Danish', 'count': 16},
+                                {'_id': 'English, Italian, Spanish',
+                                 'count': 16},
+                                {'_id': 'Italian, French', 'count': 16}],
+  'unusual combinations shared by': [{'_id': {'max': 2, 'min': 1},
+                                      'language combinations': 1868},
+                                     {'_id': {'max': 6, 'min': 2},
+                                      'language combinations': 519},
+                                     {'_id': {'max': 16, 'min': 6},
+                                      'language combinations': 124}]}]
