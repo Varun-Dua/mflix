@@ -1,0 +1,872 @@
+
+import pymongo
+from pymongo import MongoClient
+import pprint
+import re
+from IPython.display import clear_output
+
+client = MongoClient("mongodb+srv://analytics:analytics-password@mflix-sqdio.mongodb.net/test?retryWrites=true&w=majority")
+
+pipeline = [
+    {
+        '$match': {'language':'Korean, English'}
+    }
+]
+
+clear_output()
+pprint.pprint(list(client.mflix.movies_initial.aggregate(pipeline)))
+
+
+#OUTPUT:
+[{'_id': ObjectId('5e0caac2c83464ca54e5fea3'),
+  'awards': '1 win.',
+  'cast': 'Jock Mahoney, Pat Yi, Youngson Chon, Dong-hwi Jang',
+  'country': 'South Korea, USA',
+  'director': 'Man-hui Lee',
+  'fullplot': 'A division of marines survive a battle with the Chinese army '
+              'but find themselves stranded without contact on the wrong side '
+              'of the front.',
+  'genre': 'Drama, War',
+  'imdbID': 239594,
+  'imdbRating': 6.9,
+  'imdbVotes': 60,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-17 00:00:04.390000000',
+  'metacritic': '',
+  'plot': 'A division of marines survive a battle with the Chinese army but '
+          'find themselves stranded without contact on the wrong side of the '
+          'front.',
+  'poster': '',
+  'rating': '',
+  'released': '1966-02-01',
+  'runtime': '88 min',
+  'title': 'Marine Battleground',
+  'type': 'movie',
+  'writer': 'Kook-jin Jang (story), Milton Mann, Han-chul Yu',
+  'year': 1963},
+ {'_id': ObjectId('5e0caac4c83464ca54e60166'),
+  'awards': '1 win.',
+  'cast': 'Jock Mahoney, Pat Yi, Youngson Chon, Dong-hwi Jang',
+  'country': 'South Korea, USA',
+  'director': 'Man-hui Lee',
+  'fullplot': 'A division of marines survive a battle with the Chinese army '
+              'but find themselves stranded without contact on the wrong side '
+              'of the front.',
+  'genre': 'Drama, War',
+  'imdbID': 239594,
+  'imdbRating': 6.9,
+  'imdbVotes': 60,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-31 00:11:07.153000000',
+  'metacritic': '',
+  'plot': 'A division of marines survive a battle with the Chinese army but '
+          'find themselves stranded without contact on the wrong side of the '
+          'front.',
+  'poster': '',
+  'rating': '',
+  'released': '1966-02-01',
+  'runtime': '88 min',
+  'title': 'Marine Battleground',
+  'type': 'movie',
+  'writer': 'Kook-jin Jang (story), Milton Mann, Han-chul Yu',
+  'year': 1963},
+ {'_id': ObjectId('5e0caac4c83464ca54e60416'),
+  'awards': '1 win & 3 nominations.',
+  'cast': 'Dong-kun Yang, Min-jung Ban, Young-min Kim, Eun-jin Pang',
+  'country': 'South Korea',
+  'director': 'Ki-duk Kim',
+  'fullplot': 'Romances end in blood and the frail hopes of individuals are '
+              'torn apart in a vile karmic continuity of colonialism, civil '
+              'war and occupation. After surviving Japanese colonization, '
+              'Korea became the first war zone of the Cold War. The legacy of '
+              'war remains today in this divided country. Three forlorn '
+              'teenagers, Chank-guk, Jihum and Eunok are figures in the '
+              'landscape of this story, which highlights the global '
+              'implications of a very Korean reality. None of them is able to '
+              'escape the withering pull of tragedy. All desperate pleas for '
+              'love and redemption are returned stamped in red with .',
+  'genre': 'Drama, War',
+  'imdbID': 284815,
+  'imdbRating': 7.3,
+  'imdbVotes': 2670,
+  'language': 'Korean, English',
+  'lastupdated': '2015-09-02 00:38:46.430000000',
+  'metacritic': '',
+  'plot': 'Romances end in blood and the frail hopes of individuals are torn '
+          'apart in a vile karmic continuity of colonialism, civil war and '
+          'occupation. After surviving Japanese colonization, Korea ...',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMjA1NTAwNjQyMF5BMl5BanBnXkFtZTcwNDUwNjQzMQ@@._V1_SX300.jpg',
+  'rating': 'R',
+  'released': '2001-06-02',
+  'runtime': '117 min',
+  'title': 'Address Unknown',
+  'type': 'movie',
+  'writer': 'Ki-duk Kim',
+  'year': 2001},
+ {'_id': ObjectId('5e0caac5c83464ca54e6052c'),
+  'awards': '6 wins & 1 nomination.',
+  'cast': 'Tae-hyun Cha, Ji-hyun Jun, In-mun Kim, Wok-suk Song',
+  'country': 'South Korea',
+  'director': 'Jae-young Kwak',
+  'fullplot': 'Based on a series of true stories posted by Ho-sik Kim on the '
+              'Internet describing his relationship with his girlfriend. These '
+              'were later transformed into a best-selling book and the movie '
+              'follows the book closely. It describes the meeting of Kyun-woo '
+              '(Cha) and an unnamed girl. Kyun-woo is shamed into assisting '
+              'the girl because the other passengers mistakenly think she is '
+              'his girlfriend. Once he helps her, Kyun-woo develops a deep '
+              'sense of responsibility for her which enables him to tolerate '
+              "(somehow) the girl's abuses.",
+  'genre': 'Comedy, Drama, Romance',
+  'imdbID': 293715,
+  'imdbRating': 8.2,
+  'imdbVotes': 34641,
+  'language': 'Korean, English',
+  'lastupdated': '2015-09-01 01:01:11.600000000',
+  'metacritic': '',
+  'plot': 'Based on a series of true stories posted by Ho-sik Kim on the '
+          'Internet describing his relationship with his girlfriend. These '
+          'were later transformed into a best-selling book and the movie ...',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMjM2NTYxMTE3OV5BMl5BanBnXkFtZTgwNDgwNjgwMzE@._V1_SX300.jpg',
+  'rating': 'NOT RATED',
+  'released': '2001-07-27',
+  'runtime': '123 min',
+  'title': 'My Sassy Girl',
+  'type': 'movie',
+  'writer': 'Ho-sik Kim (novel), Jae-young Kwak (screenplay)',
+  'year': 2001},
+ {'_id': ObjectId('5e0caac5c83464ca54e6055a'),
+  'awards': '',
+  'cast': 'Hyeon-jun Shin, Ha-kyun Shin, Bin Won, Jae-yeong Jeong',
+  'country': 'South Korea',
+  'director': 'Jin Jang',
+  'fullplot': '',
+  'genre': 'Action, Drama, Comedy',
+  'imdbID': 295368,
+  'imdbRating': 7.1,
+  'imdbVotes': 1518,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-15 01:03:39.787000000',
+  'metacritic': '',
+  'plot': 'Guns and Talks: (a Dark Comedy) In the heart of Seoul, Korea, a '
+          'band of 4 killers-for-hire is slowly making a name for themselves '
+          'in the business...',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTM3NjY5OTM4N15BMl5BanBnXkFtZTcwNjk3NzYyMQ@@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2001-10-13',
+  'runtime': '120 min',
+  'title': 'Guns & Talks',
+  'type': 'movie',
+  'writer': 'Jin Jang',
+  'year': 2001},
+ {'_id': ObjectId('5e0caac5c83464ca54e60605'),
+  'awards': '',
+  'cast': 'Hyuk Jang, Min-a Shin, Su-ro Kim, Sang-Woo Kwon',
+  'country': 'South Korea',
+  'director': 'Tae-gyun Kim',
+  'fullplot': 'This year is the 108th anniversary of the Korean high School '
+              '"WaSanGo" (Volcano High). Principal hides himself with "Secret '
+              'Manuscript" which every WaSanGo student wants to take from '
+              'principal... Kyang-Soo Kim (Jang Hyuk) fell asleep in physics '
+              'lessons when teacher writes X and turn to Kyang-Soo. Teacher '
+              'threw chalk to Kyang-Soo but Kyang-Soo stop the chalk and push '
+              'the chalk to trap teacher at blackboard, and was being expelled '
+              'from his 8th high school. Kyang-Soo farewell with his friends '
+              'and reach WaSanGo, his 9th high school. Kyang-Soo was shocked '
+              'by the brilliant martial skills of the WSG students. Kyang-Soo '
+              'first met "Dark Oxen" Jang-Rhang. Kyang-Soo also met the '
+              'prettiest girl "Yoo Chae-I", "Icy Jade", in WaSanGo. Kyang-Soo '
+              'get inside the school corridor and met "Tea Expert" '
+              'Hak-Rim(Sang-Woo Kwone). Hak-Rim finish tea bottle and handed '
+              'to vice-principal (principal is absent) to let principal to '
+              'taste his made tea leaves. Lunch time, a WSG student was eating '
+              '"Fujian ToFu". Jang-Rhang hates "Fujian Tofu" because "Fujian '
+              'Tofu" makes Jang-Rhang to memorize his angry and hideous '
+              'mother. Jang-Rhang pull the student for fight. Hak-Rim came in '
+              'time and blocked Jang-Rhang to hit that WSG classmate, got onto '
+              "Jang-Rhang's nerves. Jang-Rhang order the changing of Hak-Rim's "
+              'tea leaves into poisoned leaves, and kill the principal. '
+              "Checking Principal's deceased body, Vice-Principal got a "
+              'written paper. It wrote "Suspect : (1) Vice-Principal (2) Song '
+              'Hak-Rim (WSG Tea Expert)". Hak-Rim was being called and was '
+              'jailed. "Yoo Chae-I" felt Hak-Rim innocent and plan to help '
+              'Hak-Rim, visit Hak-Rim with her best female friend. Hak-Rim ask '
+              '"Yoo Chae-I" to bring Kyang-Soo. When Kyang-Soo is brought to '
+              'Hak-Rim, Hak-Rim teach Kyang-Soo everything he (Hak-Rim Song) '
+              'knows, and counted on Kyang-Soo to defeat Jang-Rhang. '
+              'Jang-Rhang challenge all WSG students with a "2-day ultimatum". '
+              '"Yoo Chae-I" trained her sword skills harder to prepare for the '
+              'facing of this 2-day-challenge. But it was actually "Jang-Rhang '
+              'tells IcyJade he loves her". "Yoo Chae-I" refused Jang-Rhang. '
+              'One day, "Yoo Chae-I" get into the male bathroom/toilet and was '
+              'being reported by the male victim, and was going to be expelled '
+              'from WaSanGo. Kyang-Soo ask vice-principal to keep "Yoo '
+              'Chae-I". "Yoo Chae-I" was being impressed and began to love '
+              'Kyang-Soo. The final battle of WSG, Jang-Rhang versus Kim '
+              '"HandSome" Kyang-Soo. Finally Jang-Rhang was being defeated and '
+              'Kyang-Soo was being praised by "Yoo Chae-I". But Kyang-Soo saw '
+              '"Yoo Chae-I" and collapsed. "Yoo Chae-I" was worried of '
+              'Kyang-Soo. Hak-Rim was happy to receive the news, though '
+              "Hak-Rim can't be released. Kyang-Soo graduated from Wasango.",
+  'genre': 'Action, Fantasy',
+  'imdbID': 301429,
+  'imdbRating': 6.1,
+  'imdbVotes': 2974,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-21 00:51:26.157000000',
+  'metacritic': '',
+  'plot': 'Violence in Korean High School, especially inside the WaSanGo '
+          "(Volcano High). You won't be able to escape.",
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTczNzMyODA4NF5BMl5BanBnXkFtZTcwMjYwODcyMQ@@._V1_SX300.jpg',
+  'rating': 'PG-13',
+  'released': '2001-12-05',
+  'runtime': '120 min',
+  'title': 'Hwasango',
+  'type': 'movie',
+  'writer': 'Tae-gyun Kim, Dong-heon Seo',
+  'year': 2001},
+ {'_id': ObjectId('5e0caac6c83464ca54e60ae5'),
+  'awards': '1 win & 1 nomination.',
+  'cast': 'Andrew Ableson, Cathy Cavadini, Joon-ho Chung, Mark Lindsay',
+  'country': 'South Korea, USA',
+  'director': 'Moon-saeng Kim',
+  'fullplot': 'Civilization has been destroyed by war and pollution, but the '
+              'survivors have built the last city of Ecoban. As most natural '
+              'resources have been exhausted, Ecoban is powered by pollution. '
+              'The citizens of Ecoban need to continue creating this pollution '
+              'leading them into conflict with the inhabitants of Marr while '
+              'one man just wants to clear away the clouds and see the sky',
+  'genre': 'Action, Fantasy, Animation',
+  'imdbID': 353014,
+  'imdbRating': 6.8,
+  'imdbVotes': 7805,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-31 00:46:27.467000000',
+  'metacritic': 53,
+  'plot': 'Civilization has been destroyed by war and pollution, but the '
+          'survivors have built the last city of Ecoban. As most natural '
+          'resources have been exhausted, Ecoban is powered by pollution. ...',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTI0OTY1NzU4M15BMl5BanBnXkFtZTcwNDA3ODcyMQ@@._V1_SX300.jpg',
+  'rating': 'UNRATED',
+  'released': '2003-07-17',
+  'runtime': '86 min',
+  'title': 'Sky Blue',
+  'type': 'movie',
+  'writer': 'Michael Keyes, Moon-saeng Kim, Jay Lender, Jun-Young Park, Sunmin '
+            'Park (adaptation), Yong-jun Park, Howard Rabinowitz (English '
+            'Language adaptation), Jeffrey Winter (adaptation), Micah Wright',
+  'year': 2003},
+ {'_id': ObjectId('5e0caac6c83464ca54e60af8'),
+  'awards': '14 wins & 2 nominations.',
+  'cast': 'Kang-ho Song, Sang-kyung Kim, Roe-ha Kim, Jae-ho Song',
+  'country': 'South Korea',
+  'director': 'Joon-ho Bong',
+  'fullplot': 'In 1986, in the province of Gyunggi, in South Korea, a second '
+              'young and beautiful woman is found dead, raped and tied and '
+              'gagged with her underwear. Detective Park Doo-Man and Detective '
+              'Cho Yong-koo, two brutal and stupid local detectives without '
+              'any technique, investigate the murder using brutality and '
+              'torturing the suspects, without any practical result. The '
+              'Detective Seo Tae-Yoon from Seoul comes to the country to help '
+              'the investigations and is convinced that a serial-killer is '
+              'killing the women. When a third woman is found dead in the same '
+              '"modus-operandi", the detectives find leads of the assassin.',
+  'genre': 'Crime, Drama, Mystery',
+  'imdbID': 353969,
+  'imdbRating': 8.1,
+  'imdbVotes': 56079,
+  'language': 'Korean, English',
+  'lastupdated': '2015-09-15 05:41:19.230000000',
+  'metacritic': 82,
+  'plot': 'In 1986, in the province of Gyunggi, in South Korea, a second young '
+          'and beautiful woman is found dead, raped and tied and gagged with '
+          'her underwear. Detective Park Doo-Man and Detective Cho...',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTI5OTA5MTI3OF5BMl5BanBnXkFtZTcwMjQyNzYzMQ@@._V1_SX300.jpg',
+  'rating': 'UNRATED',
+  'released': '2003-05-02',
+  'runtime': '132 min',
+  'title': 'Memories of Murder',
+  'type': 'movie',
+  'writer': 'Joon-ho Bong, Kwang-rim Kim, Sung-bo Shim',
+  'year': 2003},
+ {'_id': ObjectId('5e0caac8c83464ca54e60e0a'),
+  'awards': '',
+  'cast': 'Na-yeong Lee, Hyuk Jang, Angela Kelly, In-mun Kim',
+  'country': 'South Korea',
+  'director': 'Sung-su Kim',
+  'fullplot': '',
+  'genre': 'Comedy, Romance',
+  'imdbID': 381716,
+  'imdbRating': 6.7,
+  'imdbVotes': 917,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-15 00:41:39.503000000',
+  'metacritic': '',
+  'plot': '',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BODg5NjY3NjM5MF5BMl5BanBnXkFtZTcwNjc1NTYzMQ@@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2003-11-05',
+  'runtime': '118 min',
+  'title': 'Please Teach Me English',
+  'type': 'movie',
+  'writer': 'Hye-yeong No',
+  'year': 2003},
+ {'_id': ObjectId('5e0caac8c83464ca54e60f74'),
+  'awards': '',
+  'cast': 'Rae-won Kim, Geun-young Moon, Sun-yeong Ahn, Bo-kyeong Kim',
+  'country': 'South Korea',
+  'director': 'Ho-joon Kim',
+  'fullplot': "The only thing sixteen year-old Seo Bo-Eun's grandfather wants "
+              'is to see her wed, even going as far as to fake a fatal illness '
+              'to get his way. He arranges her marriage to twenty-something '
+              'Park Sang-Min, the grandson of a family friend. Keeping their '
+              'marriage a secret from all but a select few, the newlyweds try '
+              'to live their separate lives as normally as possible, but it '
+              'becomes far more complicated than they ever imagined...',
+  'genre': 'Comedy, Drama, Romance',
+  'imdbID': 395140,
+  'imdbRating': 7.3,
+  'imdbVotes': 3233,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-24 00:32:11.197000000',
+  'metacritic': '',
+  'plot': 'A teenage girl tries to continue her normal social and school life, '
+          'after her grandfather forces her into an arranged marriage with a '
+          'man in his twenties.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMjgxMDE3NzcyM15BMl5BanBnXkFtZTgwNTg4ODUwMjE@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2004-04-02',
+  'runtime': '115 min',
+  'title': 'My Little Bride',
+  'type': 'movie',
+  'writer': 'Sun-il Yu',
+  'year': 2004},
+ {'_id': ObjectId('5e0caaccc83464ca54e61727'),
+  'awards': '20 wins & 15 nominations.',
+  'cast': 'Kang-ho Song, Hie-bong Byeon, Hae-il Park, Doona Bae',
+  'country': 'South Korea',
+  'director': 'Joon-ho Bong',
+  'fullplot': 'The film revolves around Park Hee-bong, a man in his late 60s. '
+              'He runs a small snack bar on the banks of the Han River and '
+              'lives with his two sons, one daughter, and one granddaughter. '
+              'The Parks seem to lead a quite ordinary and peaceful life, but '
+              'maybe they are a bit poorer than the average Seoulite. '
+              "Hee-bong's elder son Gang-du is an immature and incompetent man "
+              'in his 40s, whose wife left home long ago. Nam-il is the '
+              'youngest son, an unemployed grumbler, and daughter Nam-joo is '
+              'an archery medalist and member of the national team. One day, '
+              'an unidentified monster suddenly appears from the depths of the '
+              "Han River and spreads panic and death, and Gang-du's daughter "
+              'Hyun-seo is carried off by the monster and disappears. All of '
+              'the family members are in a great agony because they lost '
+              'someone very dear to them. But when they find out she is still '
+              'alive, they resolve to save her.',
+  'genre': 'Horror, Sci-Fi',
+  'imdbID': 468492,
+  'imdbRating': 7,
+  'imdbVotes': 63580,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-28 00:03:17.393000000',
+  'metacritic': 85,
+  'plot': "A monster emerges from Seoul's Han River and focuses its attention "
+          "on attacking people. One victim's loving family does what it can to "
+          'rescue her from its clutches.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTQyNTk4NzAyMF5BMl5BanBnXkFtZTcwMTM2ODE0MQ@@._V1_SX300.jpg',
+  'rating': 'R',
+  'released': '2007-03-30',
+  'runtime': '120 min',
+  'title': 'The Host',
+  'type': 'movie',
+  'writer': 'Joon-ho Bong (screenplay), Won-jun Ha (screenplay), Chul-hyun '
+            'Baek (screenplay)',
+  'year': 2006},
+ {'_id': ObjectId('5e0caaccc83464ca54e617aa'),
+  'awards': '1 nomination.',
+  'cast': 'Damion Cruzz, Bruce Cumings, James Dresnok, Kim Il-Sung',
+  'country': 'UK',
+  'director': 'Daniel Gordon',
+  'fullplot': 'A British documentary about US Army defector James Dresnok '
+              'currently living in North Korea after having defected during '
+              'the 60s.',
+  'genre': 'Documentary',
+  'imdbID': 473181,
+  'imdbRating': 7.5,
+  'imdbVotes': 679,
+  'language': 'Korean, English',
+  'lastupdated': '2015-09-02 00:47:08.037000000',
+  'metacritic': 71,
+  'plot': 'A British documentary about US Army defector James Dresnok '
+          'currently living in North Korea after having defected during the '
+          '60s.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTUxMjA0OTAwMV5BMl5BanBnXkFtZTgwMjY2MDA2MDE@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2007-08-10',
+  'runtime': '94 min',
+  'title': 'Crossing the Line',
+  'type': 'movie',
+  'writer': 'Daniel Gordon',
+  'year': 2006},
+ {'_id': ObjectId('5e0caaccc83464ca54e617f8'),
+  'awards': '2 wins.',
+  'cast': 'Jae-yeong Jeong, Ha-kyun Shin, Hye-jeong Kang, Ha-ryong Lim',
+  'country': 'South Korea',
+  'director': 'Kwang-Hyun Park',
+  'fullplot': 'Soldiers from both sides of the Korean divide live among '
+              'villagers who know nothing of the war.',
+  'genre': 'Comedy, Drama, War',
+  'imdbID': 475783,
+  'imdbRating': 7.9,
+  'imdbVotes': 4610,
+  'language': 'Korean, English',
+  'lastupdated': '2015-09-11 00:09:56.523000000',
+  'metacritic': '',
+  'plot': 'Soldiers from both sides of the Korean divide live among villagers '
+          'who know nothing of the war.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTQ4NDgxNTIzNV5BMl5BanBnXkFtZTgwMjc2MDA2MDE@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2005-08-04',
+  'runtime': '133 min',
+  'title': 'Battle Ground 625',
+  'type': 'movie',
+  'writer': 'Jin Jang (play), Joong Kim, Kwang-Hyun Park',
+  'year': 2005},
+ {'_id': ObjectId('5e0caacdc83464ca54e619c1'),
+  'awards': '5 wins & 4 nominations.',
+  'cast': 'Taegu Andy Kang, Bokja Kim, Gina Kim, Jiseon Kim',
+  'country': 'USA, Canada, South Korea',
+  'director': 'So Yong Kim',
+  'fullplot': 'On the verge of coming of age. Aimie is perhaps 18, a Korean '
+              "immigrant in Canada. It's winter, snow crunches beneath her "
+              'feet. She lives with her mother. She studies English and '
+              "doesn't seem to be a particularly good student. Tran is her "
+              "best friend, and he wouldn't mind if their relationship becomes "
+              'sexual. She declines, then worries that he might find a more '
+              'willing girlfriend. Her mother broaches the subject of '
+              'remarriage. Aimie misses her father, sending him messages to '
+              'come and visit. What does she have she can count on?',
+  'genre': 'Drama',
+  'imdbID': 492463,
+  'imdbRating': 6.3,
+  'imdbVotes': 456,
+  'language': 'Korean, English',
+  'lastupdated': '2015-06-16 00:27:29.153000000',
+  'metacritic': 75,
+  'plot': 'A Korean immigrant falls in love with her best friend while '
+          'navigating her way through the challenges of living in a new '
+          'country.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMjM0NjcyOTc5OF5BMl5BanBnXkFtZTgwNjA5OTkwMzE@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2007-06-27',
+  'runtime': '83 min',
+  'title': 'In Between Days',
+  'type': 'movie',
+  'writer': 'Bradley Rust Gray, So Yong Kim',
+  'year': 2006},
+ {'_id': ObjectId('5e0caad0c83464ca54e61ce6'),
+  'awards': '1 win & 2 nominations.',
+  'cast': 'Vera Farmiga, David Lee McInnis, Joseph Y. Kim, Shirley Roeca',
+  'country': 'South Korea, USA',
+  'director': 'Gina Kim',
+  'fullplot': 'Sophie Lee has been trying unsuccessfully to get pregnant. Her '
+              "husband's family, devout Korean Catholics, prays for the "
+              'couple. His failure to have a child is deeply shameful to him, '
+              'so when he attempts suicide, Sophie tries something extreme: '
+              'she follows an undocumented immigrant - a Korean who resembles '
+              'her husband - from a fertility clinic to his apartment in New '
+              'York City where she proposes to hire him to sire her child. She '
+              'offers $300 per session and $30,000 if she gets pregnant. After '
+              'several sessions, neither is able to keep emotion out of the '
+              'arrangement. Where can this relationship go, and what about her '
+              'husband? Will her actions save him and their marriage?',
+  'genre': 'Drama, Romance',
+  'imdbID': 817544,
+  'imdbRating': 6.4,
+  'imdbVotes': 1034,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-20 00:21:32.297000000',
+  'metacritic': '',
+  'plot': 'When an American woman begins a dangerous relationship with an '
+          'attractive immigrant worker, in order to save her marriage, she '
+          'finds her true self.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTgyNDU0OTA5MV5BMl5BanBnXkFtZTcwODMxNTA4MQ@@._V1_SX300.jpg',
+  'rating': 'R',
+  'released': '2008-04-11',
+  'runtime': '104 min',
+  'title': 'Never Forever',
+  'type': 'movie',
+  'writer': 'Gina Kim',
+  'year': 2007},
+ {'_id': ObjectId('5e0caad5c83464ca54e62674'),
+  'awards': '1 win.',
+  'cast': 'Ji-won Ha, Kyung-gu Sol, Jeong-hwa Eom, Nicole Dionne',
+  'country': 'South Korea',
+  'director': 'JK Youn',
+  'fullplot': 'Professor Kim, a marine geologist, recognizes the impending '
+              'danger of a mega tsunami headed straight for Haeundae, a '
+              'popular vacation spot on the south coast of Korea. He '
+              'desperately attempts to warn authorities and alert the '
+              'unknowing vacationers of the 500 MPH destructive force of '
+              'nature headed their direction.',
+  'genre': 'Action, Drama, Thriller',
+  'imdbID': 1153040,
+  'imdbRating': 5.7,
+  'imdbVotes': 2466,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-23 00:07:07.267000000',
+  'metacritic': '',
+  'plot': 'Professor Kim, a marine geologist, recognizes the impending danger '
+          'of a mega tsunami headed straight for Haeundae, a popular vacation '
+          'spot on the south coast of Korea. He desperately ...',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BODA1MTE2OTIyM15BMl5BanBnXkFtZTgwMTA1MTE0MjE@._V1_SX300.jpg',
+  'rating': 'R',
+  'released': '2009-07-22',
+  'runtime': '120 min',
+  'title': 'Tidal Wave',
+  'type': 'movie',
+  'writer': 'JK Youn',
+  'year': 2009},
+ {'_id': ObjectId('5e0caad7c83464ca54e62946'),
+  'awards': '1 win.',
+  'cast': 'Jung Yoon Lee, Daniela Kostova, Sung Kim, Oleg Mavromatti',
+  'country': 'USA',
+  'director': 'Jim Finn',
+  'fullplot': 'Ready for a Marxist-Leninist-musical documentary? The Busby '
+              'Berkeley of propaganda, Jim Finn, follows a South Korean video '
+              'artist in North Korea who hopes to revitalize Juche cinema, '
+              'somewhat inspired by a true story of a South Korean filmmaker '
+              'kidnapped in the 70s to make the North Korean film industry '
+              'better. In the mod 60s, film-fanatic Kim Jong Il adapted his '
+              "father's Juche (pronounced choo-CHAY) philosophy to propaganda, "
+              'film and art. Translated as self-reliance, Juche is a hybrid of '
+              'Confucian and authoritarian Stalinist pseudo-socialism. Finn is '
+              'the undisputed champion of propaganda as pure art, and this is '
+              'his best yet. He uses the tools of traditional documentary, '
+              'formal avant-garde, language lesson videos, and some sci-fi '
+              'recreations to dig down to the souls of governments, leaders '
+              'and media manipulation. No kitsch mockumentary, just careful '
+              'analysis of the love of cinema that is as surreally funny as it '
+              "is truth. Isn't art revolutionary? Is there humanism within all "
+              'those faces?',
+  'genre': 'Comedy',
+  'imdbID': 1233599,
+  'imdbRating': 6,
+  'imdbVotes': 66,
+  'language': 'Korean, English',
+  'lastupdated': '2015-06-30 01:37:32.073000000',
+  'metacritic': 55,
+  'plot': 'Ready for a Marxist-Leninist-musical documentary? The Busby '
+          'Berkeley of propaganda, Jim Finn, follows a South Korean video '
+          'artist in North Korea who hopes to revitalize Juche cinema, ...',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTI0MDMxNjA4MV5BMl5BanBnXkFtZTcwNDI2MjM3MQ@@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2010-05-28',
+  'runtime': '62 min',
+  'title': 'The Juche Idea',
+  'type': 'movie',
+  'writer': 'Jim Finn, Kim Jong-il (additional text)',
+  'year': 2008},
+ {'_id': ObjectId('5e0caad9c83464ca54e62bf1'),
+  'awards': '9 wins & 4 nominations.',
+  'cast': 'Do-yeon Jeon, Jung-jae Lee, Yeo-jeong Yoon, Woo Seo',
+  'country': 'South Korea',
+  'director': 'Sang-soo Im',
+  'fullplot': 'Eun-yi is a playful young woman, a good match for a job as '
+              'nanny to a precocious child, Nami, the daughter of a wealthy '
+              'couple, Hae-ra and Hoon. Hae-ra will soon have twins as well. '
+              "The majordomo, Mrs. Cho, is the household's cold stone center. "
+              'Before long, Hoon seduces Eun-yi, and when Mrs. Cho tells '
+              "Hae-ra's mother about the affair, Eun-yi is up against women "
+              'with wealth, power, and no conscience. Can Eun-yi maintain her '
+              'dignity and perhaps even put the family in their place?',
+  'genre': 'Drama, Thriller',
+  'imdbID': 1314652,
+  'imdbRating': 6.5,
+  'imdbVotes': 6117,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-09 01:23:59.080000000',
+  'metacritic': 68,
+  'plot': "A man's affair with his family's housemaid leads to a dark "
+          'consequences.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTU0NzY2Njk3NF5BMl5BanBnXkFtZTcwNzM0MDMzNA@@._V1_SX300.jpg',
+  'rating': 'NOT RATED',
+  'released': '2011-01-26',
+  'runtime': '106 min',
+  'title': 'The Housemaid',
+  'type': 'movie',
+  'writer': 'Ki-young Kim (based on the film by), Sang-soo Im',
+  'year': 2010},
+ {'_id': ObjectId('5e0caadac83464ca54e630f9'),
+  'awards': '4 wins & 3 nominations.',
+  'cast': 'Jae-yeong Jeong, Ryeowon Jung, Yeong-seo Park, Mi-kyeong Yang',
+  'country': 'South Korea',
+  'director': 'Hae-jun Lee',
+  'fullplot': 'After failing to kill himself by jumping off a bridge, the man '
+              'is washed up on a deserted island in the middle of the river, '
+              "but within view of the city's high-rises. He attempts to "
+              'escape, but soon accepts his fate and the challenges in living '
+              'on the island. A reclusive young woman, who takes close-up '
+              'shots of the moon and has not left her apartment in years, '
+              'spies him on the island and comes to think of him as her own '
+              'alien.',
+  'genre': 'Drama, Romance',
+  'imdbID': 1499666,
+  'imdbRating': 8.2,
+  'imdbVotes': 8778,
+  'language': 'Korean, English',
+  'lastupdated': '2015-09-01 01:03:13.770000000',
+  'metacritic': '',
+  'plot': 'A failed suicide attempt leads a heartbroken man to live a life in '
+          'the wilderness.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTk3MTQ3NzU0MF5BMl5BanBnXkFtZTgwNTM0MTE0MjE@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2009-05-14',
+  'runtime': '116 min',
+  'title': 'Castaway on the Moon',
+  'type': 'movie',
+  'writer': 'Hae-jun Lee (screenplay)',
+  'year': 2009},
+ {'_id': ObjectId('5e0caadac83464ca54e631d0'),
+  'awards': '8 wins & 12 nominations.',
+  'cast': 'Bin Won, Sae-ron Kim, Tae-hoon Kim, Hee-won Kim',
+  'country': 'South Korea',
+  'director': 'Jeong-beom Lee',
+  'fullplot': "An ex-special agent CHA Tae-shik's only connection to the rest "
+              'of the world is a little girl, So-mi, who lives nearby. Her '
+              'mother, Hyo-jeong smuggles drugs from a drug trafficking '
+              'organization and entrusts Tae-shik with the product, without '
+              'letting him know. The traffickers find out about her smuggling '
+              'and kidnap both Hyo-jeong and So-mi. The gang promises to '
+              'release them if Tae-shik makes a delivery for them, however it '
+              'actually is a larger plot to eliminate a rival drug ring '
+              "leader. When Hyo-jeon's disemboweled body is discovered, "
+              "Tae-shik realizes that So-mi's life may also be in danger. "
+              'Tae-shik becomes enraged at the prospect that So-mi may already '
+              'be dead and prepares for a battle, putting his own life at '
+              'risk.',
+  'genre': 'Action, Crime, Thriller',
+  'imdbID': 1527788,
+  'imdbRating': 7.9,
+  'imdbVotes': 38093,
+  'language': 'Korean, English',
+  'lastupdated': '2015-09-10 17:09:15.037000000',
+  'metacritic': '',
+  'plot': 'A quiet pawnshop keeper with a violent past takes on a drug- and '
+          'organ trafficking ring in hope of saving the child who is his only '
+          'friend.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTgzMTkxNjAxNV5BMl5BanBnXkFtZTgwMDU3MDE0MjE@._V1_SX300.jpg',
+  'rating': 'R',
+  'released': '2010-08-05',
+  'runtime': '119 min',
+  'title': 'The Man from Nowhere',
+  'type': 'movie',
+  'writer': 'Jeong-beom Lee',
+  'year': 2010},
+ {'_id': ObjectId('5e0caadcc83464ca54e633bf'),
+  'awards': '5 wins & 5 nominations.',
+  'cast': 'Seung-won Cha, Sang-Woo Kwon, Seung Hyun Choi, Seung-woo Kim',
+  'country': 'South Korea',
+  'director': 'John H. Lee',
+  'fullplot': 'The story of student-soldiers trying to protect a middle school '
+              'during the early days of the Korean War.',
+  'genre': 'Action, Drama, War',
+  'imdbID': 1587729,
+  'imdbRating': 7.4,
+  'imdbVotes': 3534,
+  'language': 'Korean, English',
+  'lastupdated': '2015-09-01 00:22:10.723000000',
+  'metacritic': '',
+  'plot': 'The story of student-soldiers trying to protect a middle school '
+          'during the early days of the Korean War.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMjE3NTQ2MTUxNl5BMl5BanBnXkFtZTgwMjM5NDIwMDE@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2010-06-16',
+  'runtime': '120 min',
+  'title': '71: Into the Fire',
+  'type': 'movie',
+  'writer': 'Man-Hee Lee (screenplay), Dong-Woo Kim (original story), John H. '
+            'Lee',
+  'year': 2010},
+ {'_id': ObjectId('5e0caadfc83464ca54e63e99'),
+  'awards': '4 wins & 3 nominations.',
+  'cast': 'Ha-kyun Shin, Soo Go, Seung-su Ryu, Chang-Seok Ko',
+  'country': 'South Korea',
+  'director': 'Hun Jang',
+  'fullplot': 'Towards the end of the Korean War an uneasy ceasefire is '
+              'ordered, but out on the Eastern front line of the Aerok Hills '
+              'fierce fighting continues. A race to capture a strategic point '
+              'to determine a new border between the two Koreas is the '
+              'ultimate prize. A bullet is then found in the body of dead '
+              'company commander of the South Korean army. The bullet that '
+              'killed the company commander belongs to the South Korean army. '
+              'Lieutenant of the Defense Security Command Kang Eun-Pyo is '
+              'ordered to go out into the Eastern front line and investigate '
+              'the murder. When Kang Eun-Pyo arrives in the Aerok Hills he is '
+              'surprised to find his old friend Kim Soo-Hyeok commanding '
+              'troops in the Aerok Hills. Kang Eun-Pyo believed Kim Soo-Hyeok '
+              'was dead. In their younger years, Kim Soo-Hyeok was a meek '
+              'student, but he eventually became the leader of Aerok company '
+              'as a lieutenant. The situation in the Aerok company raises many '
+              'flags in the eyes of Kang Eun-Pyo. Soldiers wear North Korean '
+              'uniforms inside due to the cold weather, a 20-year-old leads '
+              'troops as a captain and the reappearance of his old friend Kim '
+              'Soo-Hyeok. The countdown to the ceasefire begins as the lives '
+              'of countless soldiers fall to the wayside ...',
+  'genre': 'Drama, History, War',
+  'imdbID': 2007387,
+  'imdbRating': 7.4,
+  'imdbVotes': 3790,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-16 00:36:14.790000000',
+  'metacritic': 59,
+  'plot': "A drama centered on the Korean War's final battle that will "
+          'determine the border between north and south.',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMzM1NzM2NzM0NF5BMl5BanBnXkFtZTcwMzY0NDUyNw@@._V1_SX300.jpg',
+  'rating': 'NOT RATED',
+  'released': '2011-07-20',
+  'runtime': '133 min',
+  'title': 'The Front Line',
+  'type': 'movie',
+  'writer': 'Sang-yeon Park',
+  'year': 2011},
+ {'_id': ObjectId('5e0caae3c83464ca54e6463f'),
+  'awards': '',
+  'cast': 'Ji-seob So, Mi-yeon Lee, Do Won Kwak, Dong-jun Kim',
+  'country': 'South Korea',
+  'director': 'Sang-yoon Lim',
+  'fullplot': 'Hyeong-Do (So Ji-Sub) is an assassin for a company that '
+              'masquerades as a metal trading company. One day, he takes on a '
+              'job partnering with a man Hyun-Yi, who is he is to kill '
+              'afterwards. Hyun-Yi asks a favor to Hyeong-Do which is to give '
+              "money to his family. Hyeong-Do visits Hyun-Yi's home where he "
+              "meets Hyun-Yi's mother Su-Yeon (Lee Mi-Yeon). Su-Yeon is a "
+              'former singer whom Hyeong-Do admired in the past. Guilt, an '
+              'unknown feeling up to this point for Hyeong-Do, begins take '
+              "over Hyeong-Do. When Hyeong-Do's company realizes that "
+              "Hyeong-Do hasn't taken out Hyun-Yi as planned, Hyeong-Do "
+              'becomes quickly becomes their target.',
+  'genre': 'Action, Drama, Thriller',
+  'imdbID': 2371486,
+  'imdbRating': 6.7,
+  'imdbVotes': 2663,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-21 00:20:53.250000000',
+  'metacritic': '',
+  'plot': 'Hyeong-Do (So Ji-Sub) is an assassin for a company that masquerades '
+          'as a metal trading company. One day, he takes on a job partnering '
+          'with a man Hyun-Yi, who is he is to kill afterwards. ...',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTk4MDM5NTA0MV5BMl5BanBnXkFtZTgwNzU2NjI2MDE@._V1_SX300.jpg',
+  'rating': 'NOT RATED',
+  'released': '2012-10-11',
+  'runtime': '96 min',
+  'title': 'A Company Man',
+  'type': 'movie',
+  'writer': 'Sang-yoon Lim',
+  'year': 2012},
+ {'_id': ObjectId('5e0caae5c83464ca54e6494a'),
+  'awards': '5 nominations.',
+  'cast': 'Jeong Eun-Chae, Sun-kyun Lee, Joon-sang Yoo, Ji-won Ye',
+  'country': 'South Korea',
+  'director': 'Sang-soo Hong',
+  'fullplot': 'University student Hae-Won (Jung Eun-Chae) wants to break up '
+              'with Teacher Sung-Joon (Lee Sun-Kyun). They have had a secret '
+              'relationship. Hae-Won meets her mother (Kim Ja-Ok), who is '
+              'going to emigrate to Canada tomorrow. After meeting her mother, '
+              'Hae-Won feels depressed and she decides to meet Sung-Joon for '
+              'the first time in a long while. On that day, Hae-Won and '
+              'Sung-Joon happen to meet students at a restaurant who study the '
+              'same major and their relationship becomes known to others. '
+              'Hae-Won becomes more depressed. Sung-Joon then suggests they '
+              'runaway to somewhere else.',
+  'genre': 'Drama',
+  'imdbID': 2576522,
+  'imdbRating': 6.8,
+  'imdbVotes': 725,
+  'language': 'Korean, English',
+  'lastupdated': '2015-09-02 00:08:56.727000000',
+  'metacritic': '',
+  'plot': 'The secret relationship between a student and a teacher, will their '
+          'love last?',
+  'poster': 'https://m.media-amazon.com/images/M/MV5BNTg3OTkyNTgxMl5BMl5BanBnXkFtZTgwMDc0OTAxMzE@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2013-02-28',
+  'runtime': '90 min',
+  'title': "Nobody's Daughter Haewon",
+  'type': 'movie',
+  'writer': 'Sang-soo Hong (screenplay)',
+  'year': 2013},
+ {'_id': ObjectId('5e0caaebc83464ca54e653ac'),
+  'awards': '',
+  'cast': '',
+  'country': 'USA, South Korea',
+  'director': 'Brian Ivie',
+  'fullplot': 'The Drop Box tells the story of South Korean pastor Lee '
+              'Jong-rak and his heroic efforts to embrace and protect the most '
+              'vulnerable members of society. It is an exploration of the '
+              'physical, emotional and financial toll associated with '
+              'providing refuge to orphans that would otherwise be abandoned '
+              'on the streets. The movie is also a story of hope - a reminder '
+              'that every human life is sacred and worthy of love. South Korea '
+              'is not the only country grappling with the issue of orphan '
+              'care. Around the world, there are more than 150 million orphans '
+              'waiting for forever families to call their own.',
+  'genre': 'Documentary, Biography, News',
+  'imdbID': 3717510,
+  'imdbRating': 7.7,
+  'imdbVotes': 185,
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-26 00:08:36.197000000',
+  'metacritic': '',
+  'plot': 'One winter, a pastor finds an abandoned infant on his church steps, '
+          "and builds 'a drop box' to rescue any future foundlings.",
+  'poster': 'https://m.media-amazon.com/images/M/MV5BMTk2NjY4NTMzNl5BMl5BanBnXkFtZTgwMTAxMDEzNDE@._V1_SX300.jpg',
+  'rating': '',
+  'released': '2015-03-03',
+  'runtime': '79 min',
+  'title': 'The Drop Box',
+  'type': 'movie',
+  'writer': 'Brian Ivie (story)',
+  'year': 2014},
+ {'_id': ObjectId('5e0caaebc83464ca54e65579'),
+  'awards': '',
+  'cast': '',
+  'country': 'Korea, South Korea, USA',
+  'director': 'Joon-ho Bong',
+  'fullplot': "Director Bong Joon-ho's next feature film project.",
+  'genre': 'Adventure, Drama, Sci-Fi',
+  'imdbID': 3967856,
+  'imdbRating': '',
+  'imdbVotes': '',
+  'language': 'Korean, English',
+  'lastupdated': '2015-08-29 00:02:28.407000000',
+  'metacritic': '',
+  'plot': "Director Bong Joon-ho's next feature film project.",
+  'poster': '',
+  'rating': '',
+  'released': '',
+  'runtime': '',
+  'title': 'Okja',
+  'type': 'movie',
+  'writer': 'Joon-ho Bong',
+  'year': 2016},
+ {'_id': ObjectId('5e0caaecc83464ca54e659eb'),
+  'awards': '',
+  'cast': 'Dean Dawson, Sung-min Lee, Soo-Bin Chae, Hee-Joon Lee',
+  'country': 'South Korea',
+  'director': 'Ho-jae Lee',
+  'fullplot': '',
+  'genre': '',
+  'imdbID': 4788944,
+  'imdbRating': '',
+  'imdbVotes': '',
+  'language': 'Korean, English',
+  'lastupdated': '2015-07-27 00:32:47.293000000',
+  'metacritic': '',
+  'plot': '',
+  'poster': '',
+  'rating': '',
+  'released': '',
+  'runtime': '',
+  'title': 'Robot Sound',
+  'type': 'movie',
+  'writer': '',
+  'year': 2015}]
